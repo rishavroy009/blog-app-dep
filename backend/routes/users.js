@@ -14,10 +14,12 @@ router.put("/:id",verifyToken,async(req,res)=>{
         }
         const updatedUser=await User.findByIdAndUpdate(req.params.id,{$set:req.body},{new:true})
         res.status(200).json(updatedUser)
+        //success
 
     }
     catch(err){
         res.status(500).json(err)
+        //internal server error
     }
 })
 
@@ -47,6 +49,7 @@ router.get("/:id",async (req,res)=>{
     try{
         const user=await User.findById(req.params.id)
         const {password,...info}=user._doc
+        //destructuring for storing password in password and rest in info
         res.status(200).json(info)
     }
     catch(err){

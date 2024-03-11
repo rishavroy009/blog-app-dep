@@ -78,8 +78,9 @@ router.get("/",async (req,res)=>{
     try{
         const searchFilter={
             title:{$regex:query.search, $options:"i"}
+            // "i" used for case-insensitive matching and regex is used for regular expression matching
         }
-        const posts=await Post.find(query.search?searchFilter:null)
+        const posts=await Post.find(query.search?searchFilter:null).sort({ createdAt: -1 });
         res.status(200).json(posts)
     }
     catch(err){

@@ -22,9 +22,14 @@ console.log(err)
 //middlewares
 dotenv.config()
 app.use(express.json())
+//converts the json string to json object format so that it can be accessed easily
 app.use("/images",express.static(path.join(__dirname,"/images")))
+//Any request made to URLs starting with "/images" will be served by static files located in the "/images" directory relative to the directory where this code file resides.
+// if you have an image file named "example.jpg" located in the "/images" directory, you can access it using the URL "/images/example.jpg
 app.use(cors({origin:"http://localhost:5173",credentials:true}))
+//so that requests can only be recieved from my frontend only
 app.use(cookieParser())
+//extracts the cookie data and make it usable for server
 app.use("/api/auth",authRoute)
 app.use("/api/users",userRoute)
 app.use("/api/posts",postRoute)
@@ -41,12 +46,14 @@ const storage=multer.diskStorage({
         // fn(null,"image1.jpg")
     }
 })
+//created a storage instance for multer
 
 const upload=multer({storage:storage})
 app.post("/api/upload",upload.single("file"),(req,res)=>{
     // console.log(req.body)
     res.status(200).json("Image has been uploaded successfully!")
 })
+//uploading to storage
 
 
 
